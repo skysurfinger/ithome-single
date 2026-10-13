@@ -94,8 +94,9 @@ a{color:inherit;text-decoration:none}
 .focus .slide.on{display:block}
 .focus img{width:100%;height:170px;object-fit:cover;display:block;background:var(--bg-soft)}
 .focus .cap{
-  position:absolute;left:0;right:0;bottom:0;padding:24px 12px 9px;color:#fff;font-size:13px;
+  position:absolute;left:0;right:0;bottom:0;padding:26px 12px 9px;color:#fff;font-size:13px;
   background:linear-gradient(transparent,rgba(0,0,0,.75));
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
 }
 .focus .dots{position:absolute;right:10px;bottom:8px;display:flex;gap:5px}
 .focus .dots i{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.55);cursor:pointer}
@@ -172,6 +173,19 @@ footer a:hover{color:var(--accent)}
   #sideTools{display:none}
   .nhead .today{display:none}
   #singleList .time{flex-basis:64px}
+  /* 手机端顶部精简 */
+  #top .line1{flex-wrap:wrap;height:auto;padding:8px 0;gap:10px}
+  #top .nav-right{gap:2px}
+  #top .nav-right a.btn{padding:5px 6px;font-size:12px}
+  #top .nav-right .btn{padding:5px 6px;font-size:12px}
+  /* 频道导航手机隐藏，保留搜索 */
+  #nav .channels{display:none}
+  #nav .inner{flex-direction:column;gap:8px;padding:10px 0 12px}
+  #nav .side{flex:1 1 auto;width:100%}
+  .hotkeyword{white-space:normal}
+  #tt .titem{display:flex;margin:4px 0}
+  #tt .titem a{font-size:13.5px}
+  .nhead{flex-wrap:wrap;gap:8px}
 }
 </style>
 </head>
