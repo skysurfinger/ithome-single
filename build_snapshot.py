@@ -61,6 +61,13 @@ print('images localized to img/')
 
 snapshot_json = json.dumps(data, ensure_ascii=False)
 
+# 1) 独立 snapshot.json：公网页面同域 fetch 的数据源
+json_path = os.path.join(BASE, 'snapshot.json')
+with open(json_path, 'w', encoding='utf-8') as f:
+    f.write(snapshot_json)
+print('已写入 snapshot.json (%d KB)' % (len(snapshot_json) // 1024))
+
+# 2) 内嵌到 index.html（兜底）
 html_path = os.path.join(BASE, 'index.html')
 html = open(html_path, 'r', encoding='utf-8').read()
 new_html, n = re.subn(r'const SNAPSHOT = .*?;\n', 'const SNAPSHOT = ' + snapshot_json + ';\n', html, count=1, flags=re.S)
