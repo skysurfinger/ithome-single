@@ -22,6 +22,10 @@ def download_img(url):
     """下载图片到 img/，返回相对路径；失败返回原 URL"""
     if not url:
         return url
+    if url.startswith('//'):
+        url = 'https:' + url
+    if not url.startswith('http'):
+        return url
     try:
         path_part = url.split('?')[0]
         ext = os.path.splitext(path_part)[1] or '.jpg'
