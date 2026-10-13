@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
-"""抓取最新数据并嵌入 index.html（快照兜底），同时用于 GitHub Pages 部署版本"""
+"""抓取最新数据并嵌入 index.html（快照兜底），本地与定时任务通用"""
 import io
 import json
 import os
+import re
 import sys
 
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
-BASE = r"C:\Users\Administrator\.local\share\TeleAgent\TeleAgent的工作空间\IT之家单列版"
+BASE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, BASE)
 
 import server
@@ -21,7 +22,9 @@ snapshot_json = json.dumps(data, ensure_ascii=False)
 
 html_path = os.path.join(BASE, 'index.html')
 html = open(html_path, 'r', encoding='utf-8').read()
-assert '__SNAPSHOT__' in html, 'index.html 缺少 __SNAPSHOT__ 占位符'
-html = html.replace('__SNAPSHOT__', snapshot_json)
+new_html, n = re.subn(r'const SNAPSHOT = .*?;\n', 'const SNAPSHOT = ' + snapshot_json + ';\n', html, count=1, flags=re.S)
+if n != 1:
+    raise SystemExit('index.html 中未找到 SNAPSHOT 定义')
+html = new_html
 open(html_path, 'w', encoding='utf-8').write(html)
 print('已写入快照 → index.html (%d KB)' % (len(html) // 1024))
