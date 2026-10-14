@@ -51,13 +51,16 @@ print('news=%d hot=%d today=%s focus=%d ranks=%d/%d/%d' % (
     len(data['news']), len(data['hot']), data['today'], len(data['focus']),
     len(data['ranks']['day']), len(data['ranks']['week']), len(data['ranks']['month'])))
 
-# 图片本地化（轮播 + 产品/资源图标）
+# 图片本地化（轮播 + 产品/资源图标 + 频道专区卡片）
 for f in data['focus']:
     f['img'] = download_img(f.get('img', ''))
 for group in ('products', 'resources'):
     for it in data.get(group, []):
         it['icon'] = download_img(it.get('icon', ''))
-print('images localized to img/')
+for sec in data.get('sections', []):
+    for c in sec.get('cards', []):
+        c['img'] = download_img(c.get('img', ''))
+print('images localized to img/ (sections cards: %d)' % sum(len(s.get('cards', [])) for s in data.get('sections', [])))
 
 snapshot_json = json.dumps(data, ensure_ascii=False)
 
